@@ -17,10 +17,17 @@
           </n-space>
         </n-checkbox-group>
       </n-form-item>
-      <n-button>產生</n-button>
+      <n-form-item label="場地選擇">
+        <n-checkbox-group v-model:value="form.time">
+          <n-space item-style="display: flex;">
+            <n-checkbox v-for="t in placeSets" :value="t.id" :label="t.name" />
+          </n-space>
+        </n-checkbox-group>
+      </n-form-item>
+      <n-button @click="getLinks">產生</n-button>
     </div>
     <script>
-      const { createApp, reactive, computed } = Vue
+      const { createApp, reactive, ref, computed } = Vue
       const App = {
         setup() {
           const timeSets = [
@@ -44,11 +51,27 @@
             time: timeSets.map(t => t.id),
           })
 
+          const resultLinks = ref([]);
+
+          const currentDate = computed(() => {
+            if(form.date !== null) {
+              return form.date;
+            }
+            return '--';
+          })
+
+          const getLinks = () => {
+            console.log(form.date, );
+          }
+
           return {
             message: 'naive',
             timeSets,
             placeSets,
-            form
+            form,
+            getLinks,
+            resultLinks,
+            currentDate
           }
         }
       }
