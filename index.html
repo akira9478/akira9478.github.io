@@ -79,7 +79,9 @@
           })
 
           const getAllLink = () => {
-            resultLinks.value = form.place.map(p => form.time.map(t => ({ name: `${placeSets[p]} / ${timeSets[t]}`,link: getLink(p, t, currentDate.value)})))
+            resultLinks.value = form.place.reduce(
+              (acc, p) => [...acc, ...form.time.map(t => ({ name: `${placeSets[p]} / ${timeSets[t]}`, link: getLink(p, t, currentDate.value)}))], []
+            )
           }
 
           const openLink = (l) => {
