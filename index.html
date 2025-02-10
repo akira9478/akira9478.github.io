@@ -8,70 +8,90 @@
   <body>
     <div id="app">
       <n-form-item label="日期選擇">
+        <span>{{ currentDate }}</span>
         <n-date-picker panel type="date" v-model:value="form.date" :default-value="Date.now()" />
       </n-form-item>
       <n-form-item label="時間選擇">
         <n-checkbox-group v-model:value="form.time">
           <n-space item-style="display: flex;">
-            <n-checkbox v-for="t in timeSets" :value="t.id" :label="t.name" />
+            <n-checkbox v-for="(t,, id) in timeSets" :value="id" :label="t" />
           </n-space>
         </n-checkbox-group>
       </n-form-item>
       <n-form-item label="場地選擇">
-        <n-checkbox-group v-model:value="form.time">
+        <n-checkbox-group v-model:value="form.place">
           <n-space item-style="display: flex;">
-            <n-checkbox v-for="t in placeSets" :value="t.id" :label="t.name" />
+            <n-checkbox v-for="(p, id) in placeSets" :value="id" :label="p" />
           </n-space>
         </n-checkbox-group>
       </n-form-item>
-      <n-button @click="getLinks">產生</n-button>
+      <n-button @click="getAllLink">產生</n-button>
+      <n-card title="結果">
+        <n-tag type="success">{{ currentDate }}</n-tag>
+        <n-tag type="warning" round v-for="p in form.place">{{ placeSets[p] }}</n-tag>
+        <n-tag type="error" round v-for="t in form.time">{{ timeSets[t] }}</n-tag>
+        <n-divider />
+        <n-space vertical>
+          <template v-for="r in resultLinks">
+            <n-button strong secondary type="info" @click="openLink(r.link)">{{ r.name }}</n-button>
+            <a :href="r.link" target="_blank">{{ r.link }}</a>
+          </template>
+      </n-card>
     </div>
     <script>
       const { createApp, reactive, ref, computed } = Vue
       const App = {
         setup() {
-          const timeSets = [
-            { id: '18', name: '1800-1900' },
-            { id: '19', name: '1900-2000' },
-            { id: '20', name: '2000-2100' },
-          ]
-          const placeSets = [
-            { id: '87', name: '羽 5' },
-            { id: '88', name: '羽 6' },
-            { id: '2212', name: '羽 7' },
-            { id: '2213', name: '羽 8' },
-            { id: '2214', name: '羽 9' },
-            { id: '2215', name: '羽 10' },
-            { id: '2216', name: '羽 11' },
-            { id: '2217', name: '羽 12' },
-          ]
+          const timeSets = {
+            '18': '1800-1900',
+            '19': '1900-2000',
+            '20': '2000-2100',
+          }
+          const placeSets = {
+            '87': '羽 5',
+            '88': '羽 6',
+            '2212': '羽 7',
+            '2213': '羽 8',
+            '2214': '羽 9',
+            '2215': '羽 10',
+            '2216': '羽 11',
+            '2217': '羽 12',
+          }
           
           const form = reactive({
             date: null,
-            time: timeSets.map(t => t.id),
+            time: Object.keys(timeSets),
+            place: Object.keys(placeSets),
           })
 
           const resultLinks = ref([]);
 
+          const getLink = (p, t, d) => `https://scr.cyc.org.tw/tp11.aspx?module=net_booking&files=booking_place&StepFlag=25&QPid=${p}&QTime=${t}&PT=1&D=${d}`;
+
           const currentDate = computed(() => {
             if(form.date !== null) {
-              return form.date;
+              const realDate = new Date(form.date);
+              return `${realDate.getFullYear()}/${realDate.getMonth() + 1}/${realDate.getDate()}`;
             }
             return '--';
           })
 
-          const getLinks = () => {
-            console.log(form.date, );
+          const getAllLink = () => {
+            resultLinks.value = form.place.map(p => form.map(t => ({ name: `${placeSets[p]} / ${timeSets[t]}`,link: getLink(p, t, currentDate.value)})))
+          }
+
+          const openLink = (l) => {
+            window.open(l, '_blank')
           }
 
           return {
-            message: 'naive',
             timeSets,
             placeSets,
             form,
-            getLinks,
+            getAllLink,
             resultLinks,
-            currentDate
+            currentDate,
+            openLink
           }
         }
       }
