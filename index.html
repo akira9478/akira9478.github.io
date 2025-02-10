@@ -8,13 +8,13 @@
   <body>
     <div id="app">
       <n-form-item label="日期選擇">
-        <span>{{ currentDate }}</span>
         <n-date-picker panel type="date" v-model:value="form.date" :default-value="Date.now()" />
       </n-form-item>
+      <span>選擇: {{ currentDate }}</span>
       <n-form-item label="時間選擇">
         <n-checkbox-group v-model:value="form.time">
           <n-space item-style="display: flex;">
-            <n-checkbox v-for="(t,, id) in timeSets" :value="id" :label="t" />
+            <n-checkbox v-for="(t, id) in timeSets" :value="id" :label="t" />
           </n-space>
         </n-checkbox-group>
       </n-form-item>
@@ -26,10 +26,12 @@
         </n-checkbox-group>
       </n-form-item>
       <n-button @click="getAllLink">產生</n-button>
-      <n-card title="結果">
+      <n-space>
         <n-tag type="success">{{ currentDate }}</n-tag>
         <n-tag type="warning" round v-for="p in form.place">{{ placeSets[p] }}</n-tag>
         <n-tag type="error" round v-for="t in form.time">{{ timeSets[t] }}</n-tag>
+      </n-space>
+      <n-card title="結果">
         <n-divider />
         <n-space vertical>
           <template v-for="r in resultLinks">
@@ -77,7 +79,7 @@
           })
 
           const getAllLink = () => {
-            resultLinks.value = form.place.map(p => form.map(t => ({ name: `${placeSets[p]} / ${timeSets[t]}`,link: getLink(p, t, currentDate.value)})))
+            resultLinks.value = form.place.map(p => form.time.map(t => ({ name: `${placeSets[p]} / ${timeSets[t]}`,link: getLink(p, t, currentDate.value)})))
           }
 
           const openLink = (l) => {
