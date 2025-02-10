@@ -7,17 +7,52 @@
   </head>
   <body>
     <div id="app">
-      <n-button>{{ message }}</n-button>
+      <n-form-item label="日期選擇">
+        <n-date-picker panel type="date" v-model:value="form.date" :default-value="Date.now()" />
+      </n-form-item>
+      <n-form-item label="時間選擇">
+        <n-checkbox-group v-model:value="form.time">
+          <n-space item-style="display: flex;">
+            <n-checkbox v-for="t in timeSets" :value="t.id" :label="t.name" />
+          </n-space>
+        </n-checkbox-group>
+      </n-form-item>
+      <n-button>產生</n-button>
     </div>
     <script>
+      const { createApp, reactive, computed } = Vue
       const App = {
         setup() {
+          const timeSets = [
+            { id: '18', name: '1800-1900' },
+            { id: '19', name: '1900-2000' },
+            { id: '20', name: '2000-2100' },
+          ]
+          const placeSets = [
+            { id: '87', name: '羽 5' },
+            { id: '88', name: '羽 6' },
+            { id: '2212', name: '羽 7' },
+            { id: '2213', name: '羽 8' },
+            { id: '2214', name: '羽 9' },
+            { id: '2215', name: '羽 10' },
+            { id: '2216', name: '羽 11' },
+            { id: '2217', name: '羽 12' },
+          ]
+          
+          const form = reactive({
+            date: null,
+            time: timeSets.map(t => t.id),
+          })
+
           return {
-            message: 'naive'
+            message: 'naive',
+            timeSets,
+            placeSets,
+            form
           }
         }
       }
-      const app = Vue.createApp(App)
+      const app = createApp(App)
       app.use(naive)
       app.mount('#app')
     </script>
