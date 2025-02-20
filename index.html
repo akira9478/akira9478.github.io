@@ -2,8 +2,8 @@
   <head>
     <meta charset="utf-8" />
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <!-- 会使用最新版本，你最好指定一个版本 -->
     <script src="https://unpkg.com/naive-ui"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
   </head>
   <body>
     <div id="app">
@@ -72,8 +72,8 @@
 
           const currentDate = computed(() => {
             if(form.date !== null) {
-              const realDate = new Date(form.date);
-              return `${realDate.getFullYear()}/${realDate.getMonth() + 1}/${realDate.getDate()}`;
+              const realDate = dayjs(form.date);
+              return realDate.format('YYYY/MM/DD');
             }
             return '--';
           })
