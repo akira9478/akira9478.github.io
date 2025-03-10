@@ -8,7 +8,13 @@
   <body>
     <div id="app">
       <n-form-item label="日期選擇">
-        <n-date-picker panel type="date" v-model:value="form.date" :default-value="Date.now()" />
+        <n-date-picker panel type="date" v-model:value="form.date" />
+      </n-form-item>
+      <n-form-item label="快捷選項">
+        <n-space item-style="display: flex;"></n-space>
+          <n-button type="primary" dashed @click="getDate.nextWeek()">下周今日</n-button>
+          <n-button type="primary" dashed @click="getDate.nextWeek(1)">下周隔日</n-button>
+        </n-space>
       </n-form-item>
       <span>選擇: {{ currentDate }}</span>
       <n-form-item label="時間選擇">
@@ -59,9 +65,9 @@
             '2216': '羽 11',
             '2217': '羽 12',
           }
-          
+
           const form = reactive({
-            date: null,
+            date: Date.now(),
             time: Object.keys(timeSets),
             place: Object.keys(placeSets),
           })
@@ -84,6 +90,12 @@
             )
           }
 
+          const getDate = {
+            nextWeek: (addDate = 0) => {
+              form.date = dayjs().add(1, 'week').add(addDate, 'day').valueOf();
+            }
+          }
+
           const openLink = (l) => {
             window.open(l, '_blank')
           }
@@ -95,6 +107,7 @@
             getAllLink,
             resultLinks,
             currentDate,
+            getDate,
             openLink
           }
         }
