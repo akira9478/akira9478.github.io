@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/naive-ui"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <n-form-item label="日期選擇">
+        <n-date-picker panel type="date" v-model:value="form.date" />
+      </n-form-item>
+      <n-form-item label="快捷選項">
+        <n-space item-style="display: flex;"></n-space>
+          <n-button type="primary" dashed @click="getDate.nextWeek()">下周今日</n-button>
+          <n-button type="primary" dashed @click="getDate.nextWeek(1)">下周隔日</n-button>
+        </n-space>
+      </n-form-item>
+      <span>選擇: {{ currentDate }}</span>
+      <n-form-item label="時間選擇">
+        <n-checkbox-group v-model:value="form.time">
+          <n-space item-style="display: flex;">
+            <n-checkbox v-for="(t, id) in timeSets" :value="id" :label="t" />
+          </n-space>
+        </n-checkbox-group>
+      </n-form-item>
+      <n-form-item label="場地選擇">
+        <n-checkbox-group v-model:value="form.place">
+          <n-space item-style="display: flex;">
+            <n-checkbox v-for="(p, id) in placeSets" :value="id" :label="p" />
+          </n-space>
+        </n-checkbox-group>
+      </n-form-item>
+      <n-button @click="getAllLink">產生</n-button>
+      <n-space>
+        <n-tag type="success">{{ currentDate }}</n-tag>
+        <n-tag type="warning" round v-for="p in form.place">{{ placeSets[p] }}</n-tag>
+        <n-tag type="error" round v-for="t in form.time">{{ timeSets[t] }}</n-tag>
+      </n-space>
+      <n-card title="結果">
+        <n-divider />
+        <n-space vertical>
+          <template v-for="r in resultLinks">
+            <n-button strong secondary type="info" @click="openLink(r.link)">{{ r.name }}</n-button>
+            <a :href="r.link" target="_blank">{{ r.link }}</a>
+          </template>
+      </n-card>
+    </div>
+    <script>
+      const { createApp, reactive, ref, computed } = Vue
+      const App = {
+        setup() {
+          const timeSets = {
+            '18': '1800-1900',
+            '19': '1900-2000',
+            '20': '2000-2100',
+          }
+          const placeSets = {
+            '87': '羽 5',
+            '88': '羽 6',
+            '2212': '羽 7',
+            '2213': '羽 8',
+            '2214': '羽 9',
+            '2215': '羽 10',
+            '2216': '羽 11',
+            '2217': '羽 12',
+          }
+
+          const form = reactive({
+            date: Date.now(),
+            time: Object.keys(timeSets),
+            place: Object.keys(placeSets),
+          })
+
+          const resultLinks = ref([]);
+
+          const getLink = (p, t, d) => `https://scr.cyc.org.tw/tp11.aspx?module=net_booking&files=booking_place&StepFlag=25&QPid=${p}&QTime=${t}&PT=1&D=${d}`;
+
+          const currentDate = computed(() => {
+            if(form.date !== null) {
+              const realDate = dayjs(form.date);
+              return realDate.format('YYYY/MM/DD');
+            }
+            return '--';
+          })
+
+          const getAllLink = () => {
+            resultLinks.value = form.place.reduce(
+              (acc, p) => [...acc, ...form.time.map(t => ({ name: `${placeSets[p]} / ${timeSets[t]}`, link: getLink(p, t, currentDate.value)}))], []
+            )
+          }
+
+          const getDate = {
+            nextWeek: (addDate = 0) => {
+              form.date = dayjs().add(1, 'week').add(addDate, 'day').valueOf();
+            }
+          }
+
+          const openLink = (l) => {
+            window.open(l, '_blank')
+          }
+
+          return {
+            timeSets,
+            placeSets,
+            form,
+            getAllLink,
+            resultLinks,
+            currentDate,
+            getDate,
+            openLink
+          }
+        }
+      }
+      const app = createApp(App)
+      app.use(naive)
+      app.mount('#app')
+    </script>
+  </body>
+</html>

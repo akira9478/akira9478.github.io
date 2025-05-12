@@ -1,0 +1,229 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vuetify@3.7.16/dist/vuetify.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="https://fonts.bunny.net/css?family=roboto:400,500,700" />
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "vue": "https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.esm-browser.js",
+        "vuetify": "https://cdn.jsdelivr.net/npm/vuetify@3.7.16/dist/vuetify-labs.esm.js"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <v-app>
+        <v-container>
+          <v-app-bar :elevation="2">
+            <!-- <template v-slot:prepend>
+              <v-app-bar-nav-icon></v-app-bar-nav-icon>
+            </template> -->
+          
+            <v-app-bar-title>羽球場</v-app-bar-title>
+          
+            <template v-slot:append>
+              <span>時間: {{ timer }}</span>
+              <!-- <v-btn icon="mdi-heart"></v-btn>
+              <v-btn icon="mdi-dots-vertical"></v-btn> -->
+            </template>
+          </v-app-bar>
+          <v-main>
+            <v-container fluid>
+              <v-row justify="center">
+                <v-col cols="2">
+                  <v-btn size="large" color="success" @click="getDate.nextWeek()">下周今日</v-btn>
+                </v-col>
+                <v-col cols="2">
+                  <v-btn size="large" color="success" @click="getDate.nextWeek(1)">下周隔日</v-btn>
+                </v-col>
+                <v-col cols="2">
+                  <v-btn size="large" color="secondary" @click="datePickerVisible = !datePickerVisible">手動修改</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-container fluid v-show="datePickerVisible">
+              <v-row justify="center">
+                <v-locale-provider locale="zhHant">
+                  <!-- v-model="form.date" -->
+                  <v-date-picker show-adjacent-months header="header" title="title" v-model="form.date"></v-date-picker>
+                </v-locale-provider>
+              </v-row>
+            </v-container>
+            <v-container fluid>
+              <v-row justify="center">
+                <v-btn-toggle
+                  v-model="form.time"
+                  color="primary"
+                  multiple
+                >
+                  <v-btn v-for="(time, idx) in timeSets" :value="idx">{{ time }}</v-btn>
+                </v-btn-toggle>
+              </v-row>
+            </v-container>
+            <v-container>
+              <v-item-group multiple v-model="form.place">
+                <v-container>
+                  <v-row
+                    v-for="(row, r) in placeTemplateSets"
+                    :key="r"
+                    cols="12"
+                  >
+                    <v-col
+                      v-for="(col, c) in row"
+                      :key="c"
+                      cols="12"
+                      md="3"
+                    >
+                      <v-item v-slot="{ isSelected, toggle }" :value="col" :disabled="col === 'x'">
+                        <v-card
+                          :color="isSelected ? 'success' : ''"
+                          class="d-flex align-center"
+                          height="50"
+                          dark
+                          @click="toggle"
+                        >
+                          <v-scroll-y-transition>
+                            <div
+                              class="text-h4 flex-grow-1 text-center"
+                            >
+                              <v-icon v-show="col === 'x'" size="small">mdi-cancel</v-icon>
+                              <span>羽{{ c * 3 + r + 1 }}</span>
+                            </div>
+                          </v-scroll-y-transition>
+                        </v-card>
+                      </v-item>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-item-group>
+            </v-container>
+            <v-container fluid>
+              <v-row justify="center">
+                <v-chip color="primary" label class="ma-2">{{ currentDate }}</v-chip>
+                <v-chip v-for="t in form.time" color="primary" class="ma-2">{{ timeSets[t] }}</v-chip>
+                <v-chip v-for="p in form.place" color="secondary" class="ma-2">{{ placeSets[p] }}</v-chip>
+              </v-row>
+            </v-container>
+            <v-container fluid>
+              <v-row justify="center">
+                <v-btn class="ma-2" size="large" color="primary" @click="getAllLink">產生</v-btn>
+              </v-row>
+            </v-container>
+            <v-divider
+              :thickness="3"
+              class="border-opacity-75"
+              color="success"
+            ></v-divider>
+            <v-container fluid>
+              <v-row justify="start">
+                <v-switch v-model="linkVisible" label="顯示連結(偵錯)" color="warning"></v-switch>
+              </v-row>
+              <v-row justify="center">
+                <v-col cols="4" v-for="r in resultLinks" class="d-flex justify-center flex-wrap">
+                  <v-btn @click="openLink(r.link)">{{ r.name }}</v-btn>
+                  <div v-show="linkVisible">
+                    <a :href="r.link" target="_blank" class="text-break">{{ r.link }}</a>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-main>
+        </v-container>
+      </v-app>
+    </div>
+    <script type="module">
+      import { createApp, ref, computed, reactive } from "vue"
+      import { createVuetify, useDate } from "vuetify"
+      const App = {
+        setup() {
+          const timeSets = {
+            '18': '1800-1900',
+            '19': '1900-2000',
+            '20': '2000-2100',
+          }
+          const placeSets = {
+            '87': '羽 5',
+            '88': '羽 6',
+            '2212': '羽 7',
+            '2213': '羽 8',
+            '2214': '羽 9',
+            '2215': '羽 10',
+            '2216': '羽 11',
+            '2217': '羽 12',
+          }
+          const placeTemplateSets = [
+            ['x', 'x', '2212', '2215'],
+            ['x', '87', '2213', '2216'],
+            ['x', '88', '2214', '2217'],
+          ];
+          const today = new Date()
+          const form = reactive({
+            date: today,
+            time: Object.keys(timeSets),
+            place: [],
+          })
+
+          const adapter = useDate();
+          const currentDate = computed(() => {
+            if(!!form.date) {
+              const realDate = dayjs(form.date);
+              return realDate.format('YYYY/MM/DD');
+            }
+            return '--';
+          })
+
+          const resultLinks = ref([]);
+          const getLink = (p, t, d) => `https://scr.cyc.org.tw/tp11.aspx?module=net_booking&files=booking_place&StepFlag=25&QPid=${p}&QTime=${t}&PT=1&D=${d}`;
+          const getAllLink = () => {
+            resultLinks.value = form.place.reduce(
+              (acc, p) => [...acc, ...form.time.map(t => ({ name: `${placeSets[p]} / ${timeSets[t]}`, link: getLink(p, t, currentDate.value)}))], []
+            )
+          }
+
+          const getDate = {
+            nextWeek: (addDate = 0) => {
+              form.date = adapter.addDays(today, 7 + addDate);
+            }
+          }
+
+          const openLink = (l) => {
+            window.open(l, '_blank')
+          }
+
+          const linkVisible = ref(false);
+          const datePickerVisible = ref(false);
+
+          const now = ref(dayjs());
+          const timer = computed(() => {
+            return dayjs(now.value).format('YYYY-MM-DD HH:mm:ss')
+          });
+          setInterval(() => {
+            now.value = dayjs();
+          }, 1000)
+          return { 
+            timeSets,
+            placeSets,
+            placeTemplateSets,
+            form,
+            getAllLink,
+            resultLinks,
+            currentDate,
+            getDate,
+            openLink,
+            linkVisible,
+            datePickerVisible,
+            timer
+          }
+        }
+      }
+      const vuetify = createVuetify()
+
+      const app = createApp(App)
+      app.use(vuetify).mount('#app')
+    </script>
+  </body>
+</html>
