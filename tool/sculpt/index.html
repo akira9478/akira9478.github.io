@@ -77,10 +77,11 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+<link rel="stylesheet" href="./index.css">
 </head>
   <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+    <!-- 重要：加入這行以載入 React 應用程式，使用相對路徑 ./ 支援子目錄部署 -->
+    <script type="module" src="./index.tsx"></script>
 </body>
 </html>
