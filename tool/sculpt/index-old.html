@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Sculpt - 打造你的健身旅程</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0f172a',
+            accent: '#3b82f6',
+            soft: '#f1f5f9',
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.3s ease-out forwards',
+            'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Global Scrollbar Behavior */
+    html { 
+      scrollbar-gutter: stable; 
+    }
+    body { 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+      background-color: #f8fafc; 
+      color: #1e293b;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Custom Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Hide Scrollbar */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Select Arrow */
+    select { 
+      -webkit-appearance: none; 
+      appearance: none; 
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+    }
+  </style>
+
+  <!-- Libraries (UMD) -->
+  <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Vanilla Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.294.0/dist/umd/lucide.min.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.6",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- 1. DATA -->
+  <script>
+    window.MuscleGroup = {
+      Chest: '胸部', Back: '背部', Legs: '腿部', Shoulders: '肩部', Arms: '手臂', Core: '核心', Cardio: '有氧'
+    };
+
+    const IMG_BASE = "https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises";
+
+    window.EXERCISES = [
+      // --- 胸部 ---
+      {
+        id: 'chest-1',
+        name: '伏地挺身 Push-up',
+        muscleGroup: window.MuscleGroup.Chest,
+        description: '經典的上肢推力動作，透過改變雙手距離與角度刺激不同部位。',
+        targetMuscles: ['chest', 'front-delts', 'triceps', 'abs'],
+        difficulty: '初階',
+        variants: ['標準 Standard', '跪姿 Kneeling', '寬距 Wide', '鑽石 (窄距) Diamond'],
+        images: [`${IMG_BASE}/Pushups/0.jpg`, `${IMG_BASE}/Pushups/1.jpg`],
+        variantImages: {
+          '跪姿 Kneeling': [`${IMG_BASE}/Kneeling_Pushups/0.jpg`, `${IMG_BASE}/Kneeling_Pushups/1.jpg`],
+          '寬距 Wide': [`${IMG_BASE}/Wide_Hands_Pushup/0.jpg`, `${IMG_BASE}/Wide_Hands_Pushup/1.jpg`],
+          '鑽石 (窄距) Diamond': [`${IMG_BASE}/Diamond_Pushup/0.jpg`, `${IMG_BASE}/Diamond_Pushup/1.jpg`]
+        }
+      },
+      {
+        id: 'chest-2',
+        name: '臥推 Bench Press',
+        muscleGroup: window.MuscleGroup.Chest,
+        description: '健身房王牌動作，能最大化發展上身推力與肌肉量。',
+        targetMuscles: ['chest', 'front-delts', 'triceps'],
+        difficulty: '中階',
+        variants: ['槓鈴平板 Barbell Flat', '啞鈴平板 Dumbbell Flat', '上斜啞鈴 Incline', '下斜啞鈴 Decline'],
+        images: [`${IMG_BASE}/Barbell_Bench_Press_-_Medium_Grip/0.jpg`, `${IMG_BASE}/Barbell_Bench_Press_-_Medium_Grip/1.jpg`],
+        variantImages: {
+          '啞鈴平板 Dumbbell Flat': [`${IMG_BASE}/Dumbbell_Bench_Press/0.jpg`, `${IMG_BASE}/Dumbbell_Bench_Press/1.jpg`],
+          '上斜啞鈴 Incline': [`${IMG_BASE}/Incline_Dumbbell_Bench_Press/0.jpg`, `${IMG_BASE}/Incline_Dumbbell_Bench_Press/1.jpg`],
+          '下斜啞鈴 Decline': [`${IMG_BASE}/Decline_Dumbbell_Bench_Press/0.jpg`, `${IMG_BASE}/Decline_Dumbbell_Bench_Press/1.jpg`]
+        }
+      },
+      {
+        id: 'chest-3',
+        name: '飛鳥夾胸 Chest Fly',
+        muscleGroup: window.MuscleGroup.Chest,
+        description: '孤立胸肌的動作，專注於肌肉的伸展與收縮感。',
+        targetMuscles: ['chest', 'front-delts'],
+        difficulty: '中階',
+        variants: ['啞鈴飛鳥 Dumbbell', '繩索夾胸 Cable', '機械式夾胸 Machine'],
+        images: [`${IMG_BASE}/Dumbbell_Flyes/0.jpg`, `${IMG_BASE}/Dumbbell_Flyes/1.jpg`],
+        variantImages: {
+           '繩索夾胸 Cable': [`${IMG_BASE}/Cable_Crossover/0.jpg`, `${IMG_BASE}/Cable_Crossover/1.jpg`],
+           '機械式夾胸 Machine': [`${IMG_BASE}/Butterfly/0.jpg`, `${IMG_BASE}/Butterfly/1.jpg`]
+        }
+      },
+      // --- 背部 ---
+      {
+        id: 'back-1',
+        name: '引體向上 Pull-up',
+        muscleGroup: window.MuscleGroup.Back,
+        description: '垂直拉力動作，打造倒三角體型的關鍵。',
+        targetMuscles: ['lats', 'biceps', 'traps', 'forearms'],
+        difficulty: '高階',
+        variants: ['正手 Pull-up', '反手 Chin-up', '機械下拉 Lat Pulldown'],
+        images: [`${IMG_BASE}/Pullups/0.jpg`, `${IMG_BASE}/Pullups/1.jpg`],
+        variantImages: {
+          '反手 Chin-up': [`${IMG_BASE}/Chinups/0.jpg`, `${IMG_BASE}/Chinups/1.jpg`],
+          '機械下拉 Lat Pulldown': [`${IMG_BASE}/Cable_Pulldown/0.jpg`, `${IMG_BASE}/Cable_Pulldown/1.jpg`]
+        }
+      },
+      {
+        id: 'back-2',
+        name: '俯身划船 Barbell Row',
+        muscleGroup: window.MuscleGroup.Back,
+        description: '水平拉力動作，增加背部厚度與改善圓肩。',
+        targetMuscles: ['lats', 'traps', 'rear-delts', 'biceps', 'lower-back'],
+        difficulty: '中階',
+        variants: ['槓鈴俯身 Barbell Bent-over', '單手啞鈴 Dumbbell', '反向划船 Inverted'],
+        images: [`${IMG_BASE}/Bent_Over_Barbell_Row/0.jpg`, `${IMG_BASE}/Bent_Over_Barbell_Row/1.jpg`],
+        variantImages: {
+          '單手啞鈴 Dumbbell': [`${IMG_BASE}/Dumbbell_Row/0.jpg`, `${IMG_BASE}/Dumbbell_Row/1.jpg`],
+          '反向划船 Inverted': [`${IMG_BASE}/Inverted_Row/0.jpg`, `${IMG_BASE}/Inverted_Row/1.jpg`]
+        }
+      },
+      {
+        id: 'back-3',
+        name: '硬舉 Deadlift',
+        muscleGroup: window.MuscleGroup.Back,
+        description: '全身性力量動作，強化後側鏈條，提升整體力量。',
+        targetMuscles: ['lower-back', 'glutes', 'hamstrings', 'traps', 'forearms', 'quads'],
+        difficulty: '高階',
+        variants: ['傳統槓鈴 Conventional', '羅馬尼亞 RDL', '相撲 Sumo'],
+        images: [`${IMG_BASE}/Barbell_Deadlift/0.jpg`, `${IMG_BASE}/Barbell_Deadlift/1.jpg`],
+        variantImages: {
+          '羅馬尼亞 RDL': [`${IMG_BASE}/Romanian_Deadlift/0.jpg`, `${IMG_BASE}/Romanian_Deadlift/1.jpg`],
+          '相撲 Sumo': [`${IMG_BASE}/Sumo_Deadlift/0.jpg`, `${IMG_BASE}/Sumo_Deadlift/1.jpg`]
+        }
+      },
+      // --- 腿部 ---
+      {
+        id: 'legs-1',
+        name: '深蹲 Squat',
+        muscleGroup: window.MuscleGroup.Legs,
+        description: '動作之王。訓練下肢力量、爆發力與核心穩定的最佳選擇。',
+        targetMuscles: ['quads', 'glutes', 'hamstrings', 'lower-back', 'abs'],
+        difficulty: '中階',
+        variants: ['徒手 Bodyweight', '槓鈴頸後 Back Squat', '高腳杯 Goblet', '前蹲舉 Front Squat'],
+        images: [`${IMG_BASE}/Barbell_Squat/0.jpg`, `${IMG_BASE}/Barbell_Squat/1.jpg`],
+        variantImages: {
+          '徒手 Bodyweight': [`${IMG_BASE}/Air_Squat/0.jpg`, `${IMG_BASE}/Air_Squat/1.jpg`],
+          '高腳杯 Goblet': [`${IMG_BASE}/Goblet_Squat/0.jpg`, `${IMG_BASE}/Goblet_Squat/1.jpg`],
+          '前蹲舉 Front Squat': [`${IMG_BASE}/Front_Squat/0.jpg`, `${IMG_BASE}/Front_Squat/1.jpg`]
+        }
+      },
+      {
+        id: 'legs-2',
+        name: '弓箭步 Lunge',
+        muscleGroup: window.MuscleGroup.Legs,
+        description: '單腳功能性訓練，改善左右肌力不均與平衡感。',
+        targetMuscles: ['quads', 'glutes', 'hamstrings', 'calves'],
+        difficulty: '中階',
+        variants: ['啞鈴前行 Walking', '原地啞鈴 Dumbbell', '保加利亞分腿蹲 Bulgarian Split'],
+        images: [`${IMG_BASE}/Dumbbell_Lunges/0.jpg`, `${IMG_BASE}/Dumbbell_Lunges/1.jpg`],
+        variantImages: {
+          '啞鈴前行 Walking': [`${IMG_BASE}/Dumbbell_Lunges/0.jpg`, `${IMG_BASE}/Dumbbell_Lunges/1.jpg`], 
+          '保加利亞分腿蹲 Bulgarian Split': [`${IMG_BASE}/Split_Squat/0.jpg`, `${IMG_BASE}/Split_Squat/1.jpg`]
+        }
+      },
+      {
+        id: 'legs-3',
+        name: '腿推舉 Leg Press',
+        muscleGroup: window.MuscleGroup.Legs,
+        description: '機械式輔助訓練，能安全地對腿部肌群施加高強度負荷。',
+        targetMuscles: ['quads', 'hamstrings'],
+        difficulty: '初階',
+        variants: ['機械腿推 Leg Press', '坐姿腿屈伸 Leg Extension', '趴姿腿後勾 Leg Curl'],
+        images: [`${IMG_BASE}/Leg_Press/0.jpg`, `${IMG_BASE}/Leg_Press/1.jpg`],
+        variantImages: {
+          '坐姿腿屈伸 Leg Extension': [`${IMG_BASE}/Leg_Extensions/0.jpg`, `${IMG_BASE}/Leg_Extensions/1.jpg`],
+          '趴姿腿後勾 Leg Curl': [`${IMG_BASE}/Lying_Leg_Curls/0.jpg`, `${IMG_BASE}/Lying_Leg_Curls/1.jpg`]
+        }
+      },
+      {
+        id: 'legs-4',
+        name: '提踵 Calf Raise',
+        muscleGroup: window.MuscleGroup.Legs,
+        description: '針對小腿肌群的訓練，增加腳踝穩定性與爆發力。',
+        targetMuscles: ['calves'],
+        difficulty: '初階',
+        variants: ['啞鈴負重 Weighted', '徒手 Standing', '坐姿機械 Seated'],
+        images: [`${IMG_BASE}/Dumbbell_Calf_Raise/0.jpg`, `${IMG_BASE}/Dumbbell_Calf_Raise/1.jpg`],
+        variantImages: {
+          '徒手 Standing': [`${IMG_BASE}/Standing_Calf_Raises/0.jpg`, `${IMG_BASE}/Standing_Calf_Raises/1.jpg`],
+          '坐姿機械 Seated': [`${IMG_BASE}/Seated_Calf_Raise/0.jpg`, `${IMG_BASE}/Seated_Calf_Raise/1.jpg`]
+        }
+      },
+      // --- 肩部 ---
+      {
+        id: 'shoulders-1',
+        name: '肩推 Shoulder Press',
+        muscleGroup: window.MuscleGroup.Shoulders,
+        description: '垂直推力動作，打造飽滿的肩膀線條。',
+        targetMuscles: ['front-delts', 'triceps', 'traps'],
+        difficulty: '中階',
+        variants: ['站姿槓鈴 Barbell', '坐姿啞鈴 Dumbbell', '阿諾推舉 Arnold'],
+        images: [`${IMG_BASE}/Barbell_Shoulder_Press/0.jpg`, `${IMG_BASE}/Barbell_Shoulder_Press/1.jpg`],
+        variantImages: {
+          '坐姿啞鈴 Dumbbell': [`${IMG_BASE}/Seated_Dumbbell_Shoulder_Press/0.jpg`, `${IMG_BASE}/Seated_Dumbbell_Shoulder_Press/1.jpg`],
+          '阿諾推舉 Arnold': [`${IMG_BASE}/Arnold_Press/0.jpg`, `${IMG_BASE}/Arnold_Press/1.jpg`]
+        }
+      },
+      {
+        id: 'shoulders-2',
+        name: '側平舉 Lateral Raise',
+        muscleGroup: window.MuscleGroup.Shoulders,
+        description: '孤立中束三角肌，讓肩膀看起來更寬的關鍵動作。',
+        targetMuscles: ['front-delts', 'rear-delts'], 
+        difficulty: '初階',
+        variants: ['啞鈴 Dumbbell', '繩索 Cable'],
+        images: [`${IMG_BASE}/Side_Lateral_Raise/0.jpg`, `${IMG_BASE}/Side_Lateral_Raise/1.jpg`],
+        variantImages: {
+           '繩索 Cable': [`${IMG_BASE}/Cable_Lateral_Raise/0.jpg`, `${IMG_BASE}/Cable_Lateral_Raise/1.jpg`]
+        }
+      },
+      // --- 手臂 ---
+      {
+        id: 'arms-1',
+        name: '二頭彎舉 Bicep Curl',
+        muscleGroup: window.MuscleGroup.Arms,
+        description: '手臂屈曲動作，增加上臂圍度。',
+        targetMuscles: ['biceps', 'forearms'],
+        difficulty: '初階',
+        variants: ['槓鈴 Barbell', '啞鈴 Dumbbell', '集中彎舉 Concentration', '錘式 Hammer'],
+        images: [`${IMG_BASE}/Barbell_Curl/0.jpg`, `${IMG_BASE}/Barbell_Curl/1.jpg`],
+        variantImages: {
+          '啞鈴 Dumbbell': [`${IMG_BASE}/Dumbbell_Bicep_Curl/0.jpg`, `${IMG_BASE}/Dumbbell_Bicep_Curl/1.jpg`],
+          '錘式 Hammer': [`${IMG_BASE}/Hammer_Curls/0.jpg`, `${IMG_BASE}/Hammer_Curls/1.jpg`],
+          '集中彎舉 Concentration': [`${IMG_BASE}/Concentration_Curls/0.jpg`, `${IMG_BASE}/Concentration_Curls/1.jpg`]
+        }
+      },
+      {
+        id: 'arms-2',
+        name: '三頭伸展 Tricep Ext',
+        muscleGroup: window.MuscleGroup.Arms,
+        description: '手臂伸展動作，消除掰掰袖，增加推力。',
+        targetMuscles: ['triceps'],
+        difficulty: '初階',
+        variants: ['繩索下壓 Cable Pushdown', '啞鈴頸後 Overhead', '板凳臂屈伸 Dips'],
+        images: [`${IMG_BASE}/Pushdowns/0.jpg`, `${IMG_BASE}/Pushdowns/1.jpg`],
+        variantImages: {
+          '板凳臂屈伸 Dips': [`${IMG_BASE}/Bench_Dips/0.jpg`, `${IMG_BASE}/Bench_Dips/1.jpg`],
+          '啞鈴頸後 Overhead': [`${IMG_BASE}/Seated_Triceps_Press/0.jpg`, `${IMG_BASE}/Seated_Triceps_Press/1.jpg`]
+        }
+      },
+      // --- 核心 ---
+      {
+        id: 'core-1',
+        name: '平板支撐 Plank',
+        muscleGroup: window.MuscleGroup.Core,
+        description: '等長收縮訓練，建立深層核心穩定性。',
+        targetMuscles: ['abs', 'obliques', 'front-delts'],
+        difficulty: '初階',
+        variants: ['標準 Standard', '側向 Side Plank'],
+        images: [`${IMG_BASE}/Plank/0.jpg`, `${IMG_BASE}/Plank/1.jpg`],
+        variantImages: {
+          '側向 Side Plank': [`${IMG_BASE}/Side_Plank/0.jpg`, `${IMG_BASE}/Side_Plank/1.jpg`]
+        }
+      },
+      {
+        id: 'core-2',
+        name: '捲腹 Crunch',
+        muscleGroup: window.MuscleGroup.Core,
+        description: '針對腹直肌的收縮訓練，打造六塊肌線條。',
+        targetMuscles: ['abs'],
+        difficulty: '初階',
+        variants: ['徒手捲腹 Crunch', '懸垂抬腿 Hanging Leg Raise'],
+        images: [`${IMG_BASE}/Crunches/0.jpg`, `${IMG_BASE}/Crunches/1.jpg`],
+        variantImages: {
+          '懸垂抬腿 Hanging Leg Raise': [`${IMG_BASE}/Hanging_Leg_Raise/0.jpg`, `${IMG_BASE}/Hanging_Leg_Raise/1.jpg`]
+        }
+      },
+      // --- 有氧 ---
+      {
+        id: 'cardio-1',
+        name: '波比跳 Burpees',
+        muscleGroup: window.MuscleGroup.Cardio,
+        description: '短時間高強度的全身爆發，快速燃脂。',
+        targetMuscles: ['quads', 'calves', 'abs', 'chest', 'lats'],
+        difficulty: '中階',
+        variants: ['波比跳 Burpees', '開合跳 Jumping Jacks', '登山者 Mountain Climber'],
+        images: [`${IMG_BASE}/Burpees/0.jpg`, `${IMG_BASE}/Burpees/1.jpg`],
+        variantImages: {
+          '開合跳 Jumping Jacks': [`${IMG_BASE}/Jumping_Jacks/0.jpg`, `${IMG_BASE}/Jumping_Jacks/1.jpg`],
+          '登山者 Mountain Climber': [`${IMG_BASE}/Mountain_Climbers/0.jpg`, `${IMG_BASE}/Mountain_Climbers/1.jpg`]
+        }
+      }
+    ];
+
+    window.PRESETS = {
+      FULL_BODY: ['legs-1', 'chest-1', 'back-2', 'shoulders-1', 'core-1'],
+      UPPER_BODY: ['chest-2', 'back-1', 'shoulders-1', 'arms-1', 'arms-2'],
+      LOWER_BODY: ['legs-1', 'legs-3', 'legs-2', 'legs-4', 'core-2'],
+      ATHLETE_BALANCE: ['back-3', 'legs-2', 'shoulders-1', 'back-1', 'core-1']
+    };
+  </script>
+
+  <!-- 2. APP LOGIC -->
+  <script type="text/babel">
+    const { useState, useEffect, Fragment, createElement } = React;
+    
+    // --- Safe Icon Creator ---
+    const createIcon = (name, size = 24, className = "") => {
+      // Handle Lucide Vanilla global
+      if (!window.lucide || !window.lucide.icons) return <span className="text-slate-400">?</span>;
+      
+      const target = name.replace(/-/g, '').toLowerCase();
+      const iconKey = Object.keys(window.lucide.icons).find(k => k.replace(/-/g, '').toLowerCase() === target);
+      
+      if (!iconKey) return null;
+      
+      const [tag, attrs, children] = window.lucide.icons[iconKey];
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={className}
+          {...attrs}
+        >
+          {children.map((child, i) => {
+            const [cTag, cAttrs] = child;
+            return createElement(cTag, { ...cAttrs, key: i });
+          })}
+        </svg>
+      );
+    };
+    const Icon = ({ name, size, className }) => createIcon(name, size, className);
+
+    // --- MuscleMap Component ---
+    const MuscleMap = ({ highlightedMuscles, className = "h-48" }) => {
+      const isHighlighted = (id) => highlightedMuscles && highlightedMuscles.includes(id);
+      const getFill = (id) => isHighlighted(id) ? "#ef4444" : "#cbd5e1";
+      const getOpacity = (id) => isHighlighted(id) ? "1" : "0.5";
+      
+      // Inline SVGs for Front and Back Body
+      return (
+        <div className={`flex items-center justify-center gap-4 ${className}`}>
+           <svg viewBox="0 0 100 200" className="h-full w-auto drop-shadow-sm">
+              <g stroke="#64748b" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="50" cy="25" r="12" fill="#f1f5f9" />
+                <path d="M35 45 Q50 55 65 45 L65 60 Q50 70 35 60 Z" fill={getFill('chest')} opacity={getOpacity('chest')} />
+                <path d="M25 45 Q30 40 35 45 L35 55 L25 50 Z" fill={getFill('front-delts')} opacity={getOpacity('front-delts')} />
+                <path d="M75 45 Q70 40 65 45 L65 55 L75 50 Z" fill={getFill('front-delts')} opacity={getOpacity('front-delts')} />
+                <path d="M40 60 H60 V90 H40 Z" fill={getFill('abs')} opacity={getOpacity('abs')} />
+                <path d="M35 60 H40 V90 H35 Q30 75 35 60 Z" fill={getFill('obliques')} opacity={getOpacity('obliques')} />
+                <path d="M60 60 H65 Q70 75 65 90 H60 Z" fill={getFill('obliques')} opacity={getOpacity('obliques')} />
+                <path d="M25 50 L20 70 L30 70 Z" fill={getFill('biceps')} opacity={getOpacity('biceps')} />
+                <path d="M75 50 L80 70 L70 70 Z" fill={getFill('biceps')} opacity={getOpacity('biceps')} />
+                <path d="M20 70 L15 95 L25 95 Z" fill={getFill('forearms')} opacity={getOpacity('forearms')} />
+                <path d="M80 70 L85 95 L75 95 Z" fill={getFill('forearms')} opacity={getOpacity('forearms')} />
+                <path d="M35 90 H50 V140 H40 Q35 115 35 90 Z" fill={getFill('quads')} opacity={getOpacity('quads')} />
+                <path d="M50 90 H65 Q65 115 60 140 H50 Z" fill={getFill('quads')} opacity={getOpacity('quads')} />
+                <path d="M40 140 L38 180 H48 L50 140 Z" fill={getFill('calves')} opacity={getOpacity('calves')} />
+                <path d="M60 140 L62 180 H52 L50 140 Z" fill={getFill('calves')} opacity={getOpacity('calves')} />
+              </g>
+              <text x="50" y="195" textAnchor="middle" fontSize="8" fill="#94a3b8">正面</text>
+            </svg>
+            <svg viewBox="0 0 100 200" className="h-full w-auto drop-shadow-sm">
+               <g stroke="#64748b" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="50" cy="25" r="12" fill="#f1f5f9" />
+                <path d="M40 40 L50 35 L60 40 L50 55 Z" fill={getFill('traps')} opacity={getOpacity('traps')} />
+                <path d="M35 50 L40 85 L50 90 L60 85 L65 50 L50 55 Z" fill={getFill('lats')} opacity={getOpacity('lats')} />
+                <path d="M25 45 L35 48 L35 55 L25 50 Z" fill={getFill('rear-delts')} opacity={getOpacity('rear-delts')} />
+                <path d="M75 45 L65 48 L65 55 L75 50 Z" fill={getFill('rear-delts')} opacity={getOpacity('rear-delts')} />
+                <path d="M25 50 L22 70 L32 70 Z" fill={getFill('triceps')} opacity={getOpacity('triceps')} />
+                <path d="M75 50 L78 70 L68 70 Z" fill={getFill('triceps')} opacity={getOpacity('triceps')} />
+                <path d="M42 85 H58 L55 95 H45 Z" fill={getFill('lower-back')} opacity={getOpacity('lower-back')} />
+                <path d="M35 95 H65 Q70 110 50 115 Q30 110 35 95 Z" fill={getFill('glutes')} opacity={getOpacity('glutes')} />
+                <path d="M38 115 H50 V145 H42 Z" fill={getFill('hamstrings')} opacity={getOpacity('hamstrings')} />
+                <path d="M62 115 H50 V145 H58 Z" fill={getFill('hamstrings')} opacity={getOpacity('hamstrings')} />
+                <path d="M42 145 L40 175 H48 L50 145 Z" fill={getFill('calves')} opacity={getOpacity('calves')} />
+                <path d="M58 145 L60 175 H52 L50 145 Z" fill={getFill('calves')} opacity={getOpacity('calves')} />
+              </g>
+              <text x="50" y="195" textAnchor="middle" fontSize="8" fill="#94a3b8">背面</text>
+            </svg>
+        </div>
+      );
+    };
+
+    // --- ExerciseIllustration Component ---
+    const ExerciseIllustration = ({ name, images = [], className }) => {
+      const [currentIndex, setCurrentIndex] = useState(0);
+      const [hasError, setHasError] = useState(false);
+      
+      const displayText = encodeURIComponent(name);
+      const placeholderUrl = `https://placehold.co/600x400/f8fafc/cbd5e1?text=${displayText}&font=roboto`;
+      
+      useEffect(() => { setCurrentIndex(0); setHasError(false); }, [images]);
+
+      useEffect(() => {
+        if (!images || images.length <= 1) return;
+        const interval = setInterval(() => setCurrentIndex(p => (p + 1) % images.length), 1500);
+        return () => clearInterval(interval);
+      }, [images]);
+
+      const currentImageUrl = (images && images.length > 0 && !hasError) ? images[currentIndex] : placeholderUrl;
+
+      return (
+        <div className={`relative group overflow-hidden bg-white flex items-center justify-center select-none ${className}`}>
+          <img 
+            src={currentImageUrl} 
+            alt={name}
+            onError={() => setHasError(true)}
+            className="w-full h-full object-contain p-4 transition-opacity duration-500"
+            loading="lazy"
+            referrerPolicy="no-referrer"
+          />
+          {images.length > 1 && !hasError && (
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {images.map((_, idx) => (
+                <div key={idx} className={`w-1.5 h-1.5 rounded-full transition-colors ${idx === currentIndex ? 'bg-blue-500' : 'bg-slate-200'}`} />
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // --- InfoModal Component ---
+    const InfoModal = ({ exercise, onClose }) => {
+      const [selectedVariant, setSelectedVariant] = useState('');
+      useEffect(() => { if (exercise) setSelectedVariant(exercise.variants[0]); }, [exercise]);
+      if (!exercise) return null;
+
+      const handleSearch = (query) => window.open(`https://www.google.com/search?tbm=isch&q=${encodeURIComponent(query + ' gym exercise form')}`, '_blank');
+      const displayImages = exercise.variantImages?.[selectedVariant] || exercise.images;
+
+      return (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={onClose}></div>
+          <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col max-h-[90vh] relative z-10 animate-slide-up">
+            <div className="bg-slate-900 p-6 text-white flex justify-between items-start shrink-0">
+              <div>
+                <h3 className="text-2xl font-bold">{exercise.name}</h3>
+                <span className="inline-block mt-2 px-3 py-1 bg-blue-600 text-xs rounded-full font-semibold">{exercise.muscleGroup}</span>
+              </div>
+              <button onClick={onClose} className="p-1 hover:bg-slate-700 rounded-full transition"><Icon name="x" size={24}/></button>
+            </div>
+            <div className="p-6 overflow-y-auto custom-scrollbar">
+              <div className="mb-6 flex flex-col gap-4">
+                <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wide">動作示範</h4>
+                <div className="w-full bg-slate-50 rounded-xl border border-slate-100 overflow-hidden">
+                   <ExerciseIllustration name={exercise.name} images={displayImages} className="h-56 w-full bg-white" />
+                </div>
+                <div className="flex gap-2 items-center">
+                  <span className="text-xs font-bold text-slate-500 whitespace-nowrap">切換變體:</span>
+                  <select value={selectedVariant} onChange={(e) => setSelectedVariant(e.target.value)} className="w-full text-sm bg-white border border-slate-200 rounded-lg px-3 py-2 text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20">
+                    {exercise.variants.map(v => (<option key={v} value={v}>{v}</option>))}
+                  </select>
+                </div>
+              </div>
+              <div className="mb-6 flex flex-col gap-4">
+                <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wide">肌群解剖</h4>
+                <div className="w-full h-48 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-center">
+                  <MuscleMap highlightedMuscles={exercise.targetMuscles} className="h-40" />
+                </div>
+                <button onClick={() => handleSearch(exercise.name + ' ' + selectedVariant)} className="w-full py-3 bg-blue-50 text-blue-600 font-bold rounded-xl border border-blue-200 hover:bg-blue-100 transition flex items-center justify-center gap-2">
+                  <Icon name="search" size={18} /> 在 Google 搜尋動作細節
+                </button>
+              </div>
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-2">動作說明</h4>
+                <p className="text-slate-700 text-sm leading-relaxed text-justify">{exercise.description}</p>
+              </div>
+              <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 flex items-start gap-3">
+                 <div className="bg-blue-200 p-2 rounded-full text-blue-700 shrink-0"><Icon name="external-link" size={16}/></div>
+                 <div><h5 className="font-bold text-blue-900 text-sm">教練小叮嚀</h5><p className="text-blue-800 text-xs mt-1 leading-relaxed">每個人的身體結構不同，請先輕重量嘗試，找到感受度最佳的變體動作。</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // --- Main App Logic ---
+    const App = () => {
+      const [view, setView] = useState('hero');
+      const [selectedMuscle, setSelectedMuscle] = useState('全部');
+      const [myPlan, setMyPlan] = useState([]);
+      const [history, setHistory] = useState([]);
+      const [customPresets, setCustomPresets] = useState([]);
+      const [activeInfoExercise, setActiveInfoExercise] = useState(null);
+      const [pendingConfig, setPendingConfig] = useState(null);
+      const [showImportModal, setShowImportModal] = useState(false);
+      const [showSavePresetModal, setShowSavePresetModal] = useState(false);
+      const [toastMessage, setToastMessage] = useState(null);
+      const [selectedVariants, setSelectedVariants] = useState({});
+
+      // Lock Body Scroll Logic
+      const useLockBodyScroll = (isLocked) => {
+        useEffect(() => {
+          if (!isLocked) return;
+          const scrollY = window.scrollY;
+          document.body.style.position = 'fixed';
+          document.body.style.top = `-${scrollY}px`;
+          document.body.style.width = '100%';
+          return () => {
+            const sy = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, parseInt(sy || '0') * -1);
+          };
+        }, [isLocked]);
+      };
+
+      // Utils
+      const showToast = (msg) => { setToastMessage(msg); };
+      const generateHash = (items) => {
+        try {
+          return btoa(unescape(encodeURIComponent(JSON.stringify(items.map(i => ({id:i.exerciseId, v:i.variant, s:i.sets, r:i.reps, w:i.weight}))))));
+        } catch(e) { return ''; }
+      };
+      const copyToClip = (txt) => {
+        if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt);
+        else { const el = document.createElement("textarea"); el.value = txt; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); }
+      };
+      
+      useEffect(() => {
+        try {
+           const h = localStorage.getItem('sculpt_history'); if(h) setHistory(JSON.parse(h));
+           const p = localStorage.getItem('sculpt_custom_presets'); if(p) setCustomPresets(JSON.parse(p));
+        } catch(e){}
+      }, []);
+      useEffect(() => window.scrollTo(0,0), [view]);
+
+      const loadPreset = (ids) => {
+        const newItems = ids.map(id => { 
+           const e = window.EXERCISES.find(ex => ex.id === id); 
+           return e ? { instanceId: Math.random().toString(), exerciseId: e.id, variant: e.variants[0], name: e.name, sets: 3, reps: 10, weight: 0, completed: false } : null 
+        }).filter(Boolean);
+        setMyPlan(newItems);
+      };
+      const loadCustomPreset = (preset) => setMyPlan(preset.items.map(item => ({...item, instanceId: Math.random().toString(), completed: false})));
+
+      // Sub-Components
+      const Toast = () => (
+         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[100] bg-slate-800 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 animate-slide-up">
+           <Icon name="check" size={16} className="text-green-400"/><span className="text-sm font-bold">{toastMessage}</span>
+         </div>
+      );
+      
+      const PlanConfigModal = () => {
+        const [s, setS] = useState(3); const [r, setR] = useState(10); const [w, setW] = useState(0);
+        useLockBodyScroll(true);
+        return (
+          <div className="fixed inset-0 z-[70] flex items-end md:items-center justify-center">
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm animate-fade-in" onClick={() => setPendingConfig(null)}></div>
+            <div className="relative z-10 bg-white w-full md:w-96 p-6 rounded-t-3xl md:rounded-2xl shadow-xl animate-slide-up">
+               <div className="flex justify-between items-start mb-4"><div><h3 className="text-xl font-bold">{pendingConfig.exercise.name}</h3><p className="text-sm text-blue-600 font-bold">{pendingConfig.variant}</p></div><button onClick={()=>setPendingConfig(null)}><Icon name="x" size={20}/></button></div>
+               <div className="space-y-4 mb-6">
+                 <div><label className="text-sm font-bold text-slate-700 flex justify-between">組數<span className="text-blue-600">{s} 組</span></label><input type="range" min="1" max="10" value={s} onChange={e=>setS(Number(e.target.value))} className="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-slate-900"/></div>
+                 <div><label className="text-sm font-bold text-slate-700 flex justify-between">次數<span className="text-blue-600">{r} 下</span></label><input type="range" min="1" max="30" value={r} onChange={e=>setR(Number(e.target.value))} className="w-full h-2 bg-slate-200 rounded-lg appearance-none accent-slate-900"/></div>
+                 <div><label className="text-sm font-bold text-slate-700 flex justify-between">負重<span className="text-blue-600">{w} kg</span></label><div className="flex gap-2"><button onClick={()=>setW(Math.max(0,w-2.5))} className="w-10 h-10 bg-slate-100 rounded font-bold">-</button><input type="number" value={w} onChange={e=>setW(Number(e.target.value))} className="flex-1 text-center bg-slate-50 rounded border"/><button onClick={()=>setW(w+2.5)} className="w-10 h-10 bg-slate-100 rounded font-bold">+</button></div></div>
+               </div>
+               <button onClick={() => { setMyPlan([...myPlan, { instanceId: Math.random().toString(), exerciseId: pendingConfig.exercise.id, variant: pendingConfig.variant, name: pendingConfig.exercise.name, sets: s, reps: r, weight: w, completed: false }]); setPendingConfig(null); }} className="w-full py-3 bg-slate-900 text-white rounded-xl font-bold flex justify-center gap-2"><Icon name="plus" size={18}/> 加入清單</button>
+            </div>
+          </div>
+        )
+      };
+
+      const ImportModal = () => {
+        useLockBodyScroll(true);
+        return (
+           <div className="fixed inset-0 z-[70] flex items-center justify-center px-4">
+              <div className="absolute inset-0 bg-black/60 backdrop-blur-sm animate-fade-in" onClick={() => setShowImportModal(false)}></div>
+              <div className="relative z-10 bg-white w-full max-w-md p-6 rounded-2xl shadow-2xl animate-slide-up">
+                <h3 className="font-bold text-lg mb-4">匯入代碼</h3>
+                <textarea id="import-txt" className="w-full h-32 bg-slate-50 border rounded-xl p-3 text-xs font-mono mb-4" placeholder="在此貼上代碼..."></textarea>
+                <button onClick={() => {
+                   try {
+                      const items = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('import-txt').value.trim()))));
+                      setMyPlan(items.map(i => { const e=window.EXERCISES.find(ex=>ex.id===i.id); return e ? {instanceId:Math.random().toString(), exerciseId:i.id, variant:i.v, name:e.name, sets:i.s, reps:i.r, weight:i.w, completed:false} : null}).filter(Boolean));
+                      setShowImportModal(false); showToast("匯入成功");
+                   } catch(e){ alert("代碼無效"); }
+                }} className="w-full py-3 bg-slate-900 text-white font-bold rounded-xl"><Icon name="download" size={18}/> 匯入</button>
+              </div>
+           </div>
+        )
+      };
+
+      // VIEWS
+      if(view === 'hero') return (
+        <div className="min-h-screen flex flex-col justify-center items-center p-6 text-center animate-fade-in">
+           <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-bold mb-6 inline-flex gap-2 items-center"><Icon name="activity" size={16}/><span>Intelligent Fitness Architect</span></div>
+           <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-6">雕塑你的<br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">意志與體態</span></h1>
+           <p className="text-xl text-slate-600 mb-10">精準選擇動作、設定負重與組數。<br/>今天就開始執行你的專屬訓練菜單。</p>
+           <div className="flex gap-4"><button onClick={()=>setView('builder')} className="bg-slate-900 text-white px-8 py-3 rounded-full font-bold text-lg hover:shadow-xl transition flex items-center gap-2">開始規劃 <Icon name="chevron-right"/></button><button onClick={()=>setView('history')} className="bg-white border text-slate-700 px-8 py-3 rounded-full font-bold hover:bg-slate-50 flex items-center gap-2"><Icon name="history"/> 歷史紀錄</button></div>
+        </div>
+      );
+
+      if(view === 'workout') return (
+        <div className="min-h-screen bg-slate-900 text-white flex flex-col">
+           <header className="p-6 bg-slate-800/50 flex justify-between items-center"><h2 className="text-2xl font-bold flex gap-2 items-center"><Icon name="activity" className="text-green-400"/>訓練中</h2><button onClick={()=>setView('builder')} className="text-slate-400 text-sm">返回</button></header>
+           <main className="p-6 flex-1 overflow-y-auto pb-32 space-y-4">
+              {myPlan.map(i => (
+                <div key={i.instanceId} onClick={()=>setMyPlan(myPlan.map(x=>x.instanceId===i.instanceId ? {...x, completed:!x.completed}:x))} className={`p-4 rounded-xl border cursor-pointer transition flex justify-between items-center ${i.completed?'bg-green-900/20 border-green-500/50':'bg-slate-800 border-slate-700'}`}>
+                   <div><h3 className={`font-bold ${i.completed?'text-green-400 line-through':'text-white'}`}>{i.name}</h3><p className="text-slate-400 text-sm">{i.variant} • {i.weight}kg × {i.sets}組 × {i.reps}下</p></div>
+                   <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${i.completed?'bg-green-500 border-green-500':'border-slate-500'}`}>{i.completed&&<Icon name="check" size={16} className="text-white"/>}</div>
+                </div>
+              ))}
+           </main>
+           <div className="fixed bottom-0 w-full p-6 bg-slate-800 border-t border-slate-700 flex gap-4">
+              <button onClick={()=>setView('builder')} className="flex-1 py-3 bg-slate-700 text-slate-300 rounded-xl font-bold">稍後</button>
+              <button onClick={()=>{
+                 const rec = { id:Date.now(), date:new Date().toISOString(), items:myPlan, totalSets:myPlan.reduce((a,b)=>a+(b.completed?b.sets:0),0) };
+                 setHistory([rec, ...history]); localStorage.setItem('sculpt_history', JSON.stringify([rec, ...history]));
+                 setMyPlan([]); setView('history'); showToast("紀錄已儲存");
+              }} className="flex-[2] py-3 bg-green-600 text-white rounded-xl font-bold flex justify-center gap-2"><Icon name="save"/> 完成並儲存</button>
+           </div>
+        </div>
+      );
+      
+      if(view === 'history') return (
+         <div className="min-h-screen bg-slate-50">
+            <header className="p-6 bg-white border-b sticky top-0 flex gap-4 items-center"><button onClick={()=>setView('builder')}><Icon name="chevron-left"/></button><h2 className="text-xl font-bold">歷史紀錄</h2></header>
+            <main className="p-6 max-w-3xl mx-auto space-y-4">
+               {history.length===0 && <div className="text-center py-20 text-slate-400">無紀錄</div>}
+               {history.map(h => (
+                  <div key={h.id} className="bg-white p-6 rounded-2xl border shadow-sm">
+                     <div className="flex justify-between border-b pb-4 mb-4">
+                        <div><h3 className="font-bold">{new Date(h.date).toLocaleDateString()}</h3><span className="text-xs text-slate-500">總組數: {h.totalSets}</span></div>
+                        <button onClick={()=>{ copyToClip(generateHash(h.items)); showToast("已複製"); }} className="p-2 bg-slate-50 rounded text-slate-400 hover:text-blue-500"><Icon name="copy" size={16}/></button>
+                     </div>
+                     <div className="space-y-2">{h.items.map((i,x)=><div key={x} className="flex justify-between text-sm text-slate-600"><span>{i.name} <span className="text-xs bg-slate-100 px-1 rounded">{i.variant}</span></span><span>{i.weight}kg × {i.sets} × {i.reps}</span></div>)}</div>
+                  </div>
+               ))}
+            </main>
+         </div>
+      );
+
+      // Builder View
+      const filtered = selectedMuscle==='全部' ? window.EXERCISES : window.EXERCISES.filter(e=>e.muscleGroup===selectedMuscle);
+      
+      return (
+        <div className="min-h-screen bg-slate-50 pb-32">
+           <header className="sticky top-0 bg-white/80 backdrop-blur z-40 border-b px-6 py-4 flex justify-between shadow-sm">
+              <div className="font-bold text-xl flex gap-2 items-center cursor-pointer" onClick={()=>setView('hero')}><span className="bg-slate-900 text-white p-1 rounded"><Icon name="layers" size={18}/></span>SCULPT</div>
+              <div className="flex gap-2"><button onClick={()=>setShowImportModal(true)} className="px-3 py-1 bg-slate-100 rounded text-xs font-bold flex gap-1 items-center hover:bg-slate-200"><Icon name="upload" size={14}/> 匯入</button><button onClick={()=>setView('history')} className="p-2 hover:bg-slate-100 rounded"><Icon name="history" size={20}/></button><span className="bg-slate-100 px-3 py-1 rounded-full text-sm flex items-center gap-1 font-bold text-slate-600"><Icon name="user" size={14}/> {myPlan.length}</span></div>
+           </header>
+           <main className="max-w-7xl mx-auto p-4 md:p-8">
+              {/* Presets - Restored Full Cards */}
+              <h2 className="font-bold text-xl mb-4 text-slate-800">快速組合</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                 <button onClick={() => loadPreset(window.PRESETS.ATHLETE_BALANCE)} className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition text-left group">
+                    <div className="flex justify-between items-start mb-2">
+                       <span className="font-bold text-lg text-slate-800">運動員平衡</span>
+                       <Icon name="activity" className="text-green-500 group-hover:scale-110 transition" size={20} />
+                    </div>
+                    <p className="text-slate-500 text-sm">上下肢均衡發展，核心穩定。</p>
+                 </button>
+                 <button onClick={() => loadPreset(window.PRESETS.FULL_BODY)} className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition text-left group">
+                    <div className="flex justify-between items-start mb-2">
+                       <span className="font-bold text-lg text-slate-800">全身燃脂</span>
+                       <Icon name="zap" className="text-yellow-500 group-hover:scale-110 transition" size={20} />
+                    </div>
+                    <p className="text-slate-500 text-sm">經典多關節動作組合。</p>
+                 </button>
+                 <button onClick={() => loadPreset(window.PRESETS.UPPER_BODY)} className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition text-left group">
+                    <div className="flex justify-between items-start mb-2">
+                       <span className="font-bold text-lg text-slate-800">上肢雕塑</span>
+                       <Icon name="dumbbell" className="text-blue-500 group-hover:scale-110 transition" size={20} />
+                    </div>
+                    <p className="text-slate-500 text-sm">針對胸背肩手訓練。</p>
+                 </button>
+                 <button onClick={() => loadPreset(window.PRESETS.LOWER_BODY)} className="p-6 bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-blue-300 transition text-left group">
+                    <div className="flex justify-between items-start mb-2">
+                       <span className="font-bold text-lg text-slate-800">下肢強化</span>
+                       <Icon name="activity" className="text-red-500 group-hover:scale-110 transition" size={20} />
+                    </div>
+                    <p className="text-slate-500 text-sm">深蹲與硬舉，強壯地基。</p>
+                 </button>
+                 {customPresets.map(p => (
+                    <div key={p.id} className="relative group">
+                       <button onClick={()=>loadCustomPreset(p)} className="w-full h-full p-6 bg-blue-50 border border-blue-100 rounded-xl text-left hover:border-blue-300 shadow-sm"><div className="flex justify-between items-start mb-2"><div className="font-bold text-lg text-blue-900 truncate pr-4">{p.name}</div><Icon name="layers" className="text-blue-300"/></div><div className="text-sm text-blue-700/60">{p.items.length} 動作</div></button>
+                       <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 flex gap-1 transition">
+                         <button onClick={(e)=>{e.stopPropagation(); copyToClip(generateHash(p.items)); showToast("已複製");}} className="p-1.5 bg-white rounded-full text-blue-500 hover:bg-blue-50 shadow-sm"><Icon name="copy" size={14}/></button>
+                         <button onClick={(e)=>{e.stopPropagation(); const newP=customPresets.filter(x=>x.id!==p.id); setCustomPresets(newP); localStorage.setItem('sculpt_custom_presets',JSON.stringify(newP));}} className="p-1.5 bg-white rounded-full text-red-500 hover:bg-red-50 shadow-sm"><Icon name="trash-2" size={14}/></button>
+                       </div>
+                    </div>
+                 ))}
+              </div>
+              {/* Filter */}
+              <div className="flex overflow-x-auto gap-2 mb-6 pb-2 no-scrollbar sticky top-20 z-30 bg-slate-50/95 py-2">
+                 {['全部', ...Object.values(window.MuscleGroup)].map(m=><button key={m} onClick={()=>setSelectedMuscle(m)} className={`px-5 py-2 rounded-full text-sm font-medium whitespace-nowrap transition shadow-sm ${selectedMuscle===m?'bg-slate-900 text-white shadow-slate-300':'bg-white text-slate-600 border border-slate-200 hover:border-slate-400'}`}>{m}</button>)}
+              </div>
+              {/* Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 {filtered.map(ex => {
+                    const cv = selectedVariants[ex.id] || ex.variants[0];
+                    const imgs = ex.variantImages?.[cv] || ex.images;
+                    return (
+                       <div key={ex.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-lg transition overflow-hidden group">
+                          <div className="relative h-48 bg-slate-100">
+                             <ExerciseIllustration name={ex.name} images={[imgs[0]]} className="w-full h-full" />
+                             <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-slate-600 border border-slate-200">{ex.difficulty}</div>
+                             <button onClick={()=>setActiveInfoExercise(ex)} className="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:text-blue-600 border border-slate-200 hover:border-blue-200"><Icon name="info" size={18}/></button>
+                          </div>
+                          <div className="p-5">
+                             <h3 className="font-bold text-lg text-slate-900 mb-1">{ex.name}</h3>
+                             <p className="text-slate-500 text-xs mt-1 line-clamp-2 mb-4">{ex.description}</p>
+                             <div className="space-y-3">
+                               <div>
+                                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 block">選擇變體</label>
+                                 <select value={cv} onChange={e=>setSelectedVariants({...selectedVariants, [ex.id]:e.target.value})} className="w-full text-sm bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-700 outline-none hover:bg-slate-100 cursor-pointer">{ex.variants.map(v=><option key={v} value={v}>{v}</option>)}</select>
+                               </div>
+                               <button onClick={()=>{setPendingConfig({exercise:ex, variant:cv})}} className="w-full py-3 bg-slate-900 text-white rounded-xl font-bold flex justify-center gap-2 hover:bg-blue-600 shadow-lg shadow-slate-200 hover:shadow-blue-200 transition"><Icon name="plus" size={16}/> 加入/設定組數</button>
+                             </div>
+                          </div>
+                       </div>
+                    )
+                 })}
+              </div>
+           </main>
+           {/* Bottom Bar */}
+           <div className="fixed bottom-0 w-full bg-white border-t p-4 flex gap-4 overflow-x-auto z-40 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+              <div className="flex-1 flex gap-2 overflow-x-auto no-scrollbar items-center">
+                 {myPlan.length===0 && <span className="text-slate-400 text-sm flex gap-2 items-center"><Icon name="dumbbell" size={16}/> 尚未加入動作...</span>}
+                 {myPlan.map(i=><div key={i.instanceId} className="shrink-0 bg-slate-50 border border-slate-200 rounded-lg pl-3 pr-2 py-2 flex gap-2 items-center min-w-[150px] group hover:border-blue-200"><div className="text-xs"><b>{i.name}</b><br/><span className="text-blue-600">{i.variant}</span></div><button onClick={()=>setMyPlan(myPlan.filter(x=>x.instanceId!==i.instanceId))} className="text-slate-300 hover:text-red-500 ml-auto p-1"><Icon name="trash-2" size={14}/></button></div>)}
+              </div>
+              <div className="flex gap-2 shrink-0">
+                 {myPlan.length>0 && <><button onClick={()=>{copyToClip(generateHash(myPlan)); showToast("已複製")}} className="px-4 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 flex items-center gap-2"><Icon name="share-2" size={18}/></button><button onClick={()=>setShowSavePresetModal(true)} className="px-4 py-3 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 flex items-center gap-2"><Icon name="save" size={18}/></button></>}
+                 <button disabled={myPlan.length===0} onClick={()=>setView('workout')} className="px-8 py-3 bg-blue-600 text-white font-bold rounded-xl disabled:opacity-50 hover:bg-blue-700 shadow-lg shadow-blue-200 transition flex items-center gap-2"><Icon name="play" fill="currentColor" size={18}/> 開始</button>
+              </div>
+           </div>
+
+           {/* Overlays */}
+           {toastMessage && <Toast/>}
+           {activeInfoExercise && <InfoModal exercise={activeInfoExercise} onClose={()=>setActiveInfoExercise(null)} />}
+           {pendingConfig && <PlanConfigModal/>}
+           {showImportModal && <ImportModal/>}
+           {showSavePresetModal && <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4 animate-fade-in"><div className="bg-white p-6 rounded-2xl w-full max-w-sm animate-slide-up shadow-2xl"><h3 className="font-bold mb-2 text-lg">儲存組合</h3><p className="text-sm text-slate-500 mb-4">為這個菜單取個名字。</p><input id="pname" className="w-full border rounded-xl p-3 mb-4 bg-slate-50 font-medium" placeholder="例如：週一胸背日" autoFocus/><div className="flex gap-3"><button onClick={()=>setShowSavePresetModal(false)} className="flex-1 py-3 text-slate-500 font-bold hover:bg-slate-50 rounded-xl">取消</button><button onClick={()=>{ const n=document.getElementById('pname').value; if(n){ setCustomPresets([...customPresets, {id:Date.now().toString(), name:n, items:myPlan}]); localStorage.setItem('sculpt_custom_presets', JSON.stringify([...customPresets, {id:Date.now().toString(), name:n, items:myPlan}])); setShowSavePresetModal(false); showToast("已儲存"); } }} className="flex-1 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700">儲存</button></div></div></div>}
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

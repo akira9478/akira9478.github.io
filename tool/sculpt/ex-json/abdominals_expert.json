@@ -1,0 +1,99 @@
+
+[
+  {
+    "id": "Advanced_Kettlebell_Windmill",
+    "name": "進階壺鈴風車",
+    "muscleGroup": "Abdominals",
+    "level": "高階",
+    "equipment": "壺鈴",
+    "primaryMuscles": ["腹斜肌", "核心穩定"],
+    "secondaryMuscles": ["肩部"],
+    "description": "高難度的風車變體，可能涉及雙壺鈴或更大幅度。",
+    "steps": ["單手舉壺鈴", "進行大幅度側屈與髖鉸鏈"],
+    "images": "Advanced_Kettlebell_Windmill"
+  },
+  {
+    "id": "Barbell_Rollout_from_Bench",
+    "name": "槓鈴板凳滾輪",
+    "muscleGroup": "Abdominals",
+    "level": "高階",
+    "equipment": "槓鈴/板凳",
+    "primaryMuscles": ["核心抗伸展"],
+    "secondaryMuscles": [],
+    "description": "膝蓋跪在板凳上進行滾輪，增加高度與不穩定性。",
+    "steps": ["膝蓋跪在長凳上", "向前推動槓鈴至懸空", "核心極度收縮拉回"],
+    "images": "Barbell_Rollout_from_Bench"
+  },
+  {
+    "id": "Bent_Press",
+    "name": "側身推舉 (Bent Press)",
+    "muscleGroup": "Abdominals",
+    "level": "高階",
+    "equipment": "壺鈴/槓鈴",
+    "primaryMuscles": ["核心", "肩部"],
+    "secondaryMuscles": [],
+    "description": "古老的強人動作，側身利用軀幹力量支撐推舉。",
+    "steps": ["單手持重", "身體向側邊傾斜並扭轉，手臂保持垂直", "利用軀幹挺直將重量推起"],
+    "images": "Bent_Press"
+  },
+  {
+    "id": "Double_Kettlebell_Windmill",
+    "name": "雙壺鈴風車",
+    "muscleGroup": "Abdominals",
+    "level": "高階",
+    "equipment": "壺鈴",
+    "primaryMuscles": ["核心", "肩部"],
+    "secondaryMuscles": [],
+    "description": "雙手各持一壺鈴進行風車動作。",
+    "steps": ["一手高舉壺鈴，一手低垂壺鈴", "進行風車側屈動作"],
+    "images": "Double_Kettlebell_Windmill"
+  },
+  {
+    "id": "Hanging_Leg_Raise",
+    "name": "懸垂抬腿",
+    "muscleGroup": "Abdominals",
+    "level": "高階",
+    "equipment": "單槓",
+    "primaryMuscles": ["下腹"],
+    "secondaryMuscles": ["屈髖肌"],
+    "description": "嚴格的直腿抬高，不擺盪。",
+    "steps": ["懸掛單槓", "收縮腹肌將雙腿直直抬起至水平或更高"],
+    "images": "Hanging_Leg_Raise"
+  },
+  {
+    "id": "Hanging_Pike",
+    "name": "懸垂屈體 (直腿觸槓)",
+    "muscleGroup": "Abdominals",
+    "level": "高階",
+    "equipment": "單槓",
+    "primaryMuscles": ["核心整體"],
+    "secondaryMuscles": [],
+    "description": "腳尖觸碰單槓 (Toes to Bar)。",
+    "steps": ["懸掛單槓", "大幅度收腹屈髖，將腳尖踢向單槓"],
+    "images": "Hanging_Pike"
+  },
+  {
+    "id": "Spell_Caster",
+    "name": "魔法師揮舞 (Spell Caster)",
+    "muscleGroup": "Abdominals",
+    "level": "高階",
+    "equipment": "啞鈴",
+    "primaryMuscles": ["腹斜肌"],
+    "secondaryMuscles": [],
+    "description": "雙手持啞鈴揮舞。",
+    "steps": ["雙手各持啞鈴", "像揮魔杖一樣向一側揮動並轉體"],
+    "images": "Spell_Caster"
+  },
+  {
+    "id": "Suspended_Reverse_Crunch",
+    "name": "懸吊反向捲腹 (TRX)",
+    "muscleGroup": "Abdominals",
+    "level": "高階",
+    "equipment": "TRX",
+    "primaryMuscles": ["下腹", "核心"],
+    "secondaryMuscles": [],
+    "description": "腳掛TRX進行捲腹。",
+    "steps": ["雙腳套入足圈，呈平板支撐", "收膝將膝蓋拉向胸口，臀部抬高"],
+    "images": "Suspended_Reverse_Crunch"
+  }
+]

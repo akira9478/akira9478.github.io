@@ -1,0 +1,52 @@
+
+[
+  {
+    "id": "JM_Press",
+    "name": "JM 推舉",
+    "muscleGroup": "Triceps",
+    "level": "高階",
+    "equipment": "槓鈴",
+    "primaryMuscles": ["三頭肌"],
+    "secondaryMuscles": ["胸部"],
+    "description": "結合窄距臥推與顱碎者的混合動作，力量舉選手常用。",
+    "steps": ["仰臥窄距握槓", "下放時手肘稍微向外，槓鈴軌跡落向頸部/下巴", "在槓鈴接近頸部時，利用三頭肌爆發力推回"],
+    "images": "JM_Press"
+  },
+  {
+    "id": "Pin_Presses",
+    "name": "插銷臥推 (Pin Press)",
+    "muscleGroup": "Triceps",
+    "level": "高階",
+    "equipment": "深蹲架/槓鈴",
+    "primaryMuscles": ["三頭肌"],
+    "secondaryMuscles": ["胸部"],
+    "description": "限制行程的超負荷臥推，專練鎖定能力。",
+    "steps": ["在深蹲架設好安全銷（約在動作行程一半或更高處）", "從安全銷上推起槓鈴", "下放至撞擊安全銷，暫停後再推起"],
+    "images": "Pin_Presses"
+  },
+  {
+    "id": "Ring_Dips",
+    "name": "吊環撐體",
+    "muscleGroup": "Triceps",
+    "level": "高階",
+    "equipment": "體操吊環",
+    "primaryMuscles": ["三頭肌"],
+    "secondaryMuscles": ["肩膀", "核心"],
+    "description": "極不穩定的撐體動作，高度考驗穩定肌群。",
+    "steps": ["雙手握住吊環支撐身體", "保持吊環貼近身體", "屈肘下降", "推回起始位置"],
+    "images": "Ring_Dips"
+  },
+  {
+    "id": "Speed_Band_Overhead_Triceps",
+    "name": "彈力帶爆發過頭伸展",
+    "muscleGroup": "Triceps",
+    "level": "高階",
+    "equipment": "彈力帶",
+    "primaryMuscles": ["三頭肌"],
+    "secondaryMuscles": ["爆發力"],
+    "description": "利用彈力帶進行快速收縮的過頭伸展。",
+    "steps": ["固定彈力帶", "快速進行過頭伸展動作", "強調速度與控制"],
+    "images": "Speed_Band_Overhead_Triceps"
+  }
+]
+    

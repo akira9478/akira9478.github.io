@@ -1,0 +1,99 @@
+
+[
+  {
+    "id": "Chin_To_Chest_Stretch",
+    "name": "下巴觸胸伸展",
+    "muscleGroup": "Neck",
+    "level": "初階",
+    "equipment": "徒手",
+    "primaryMuscles": ["頸部"],
+    "secondaryMuscles": [],
+    "description": "伸展頸部後側肌肉的簡單動作。",
+    "steps": ["坐姿或站姿皆可", "雙手十指交扣放在後腦勺", "輕輕將頭部向前下方壓", "直到下巴靠近胸口，感受後頸伸展"],
+    "images": "Chin_To_Chest_Stretch"
+  },
+  {
+    "id": "Isometric_Neck_Exercise_-_Front_And_Back",
+    "name": "頸部等長收縮 (前後)",
+    "muscleGroup": "Neck",
+    "level": "初階",
+    "equipment": "徒手",
+    "primaryMuscles": ["頸部"],
+    "secondaryMuscles": [],
+    "description": "增強頸部力量的靜態收縮訓練，適合復健或強化。",
+    "steps": ["將手掌放在額頭上", "頭部向前用力對抗手掌阻力，手掌保持不動", "接著將雙手放在腦後", "頭部向後用力對抗手掌阻力"],
+    "images": "Isometric_Neck_Exercise_-_Front_And_Back"
+  },
+  {
+    "id": "Isometric_Neck_Exercise_-_Sides",
+    "name": "頸部等長收縮 (側向)",
+    "muscleGroup": "Neck",
+    "level": "初階",
+    "equipment": "徒手",
+    "primaryMuscles": ["頸部"],
+    "secondaryMuscles": [],
+    "description": "側向的頸部靜態訓練。",
+    "steps": ["將右手掌放在頭部右側", "頭部向右用力推對抗手掌", "保持數秒後換左邊進行"],
+    "images": "Isometric_Neck_Exercise_-_Sides"
+  },
+  {
+    "id": "Lying_Face_Down_Plate_Neck_Resistance",
+    "name": "俯臥槓片頸部訓練",
+    "muscleGroup": "Neck",
+    "level": "中階",
+    "equipment": "槓片",
+    "primaryMuscles": ["頸部"],
+    "secondaryMuscles": [],
+    "description": "強化頸部後側肌群。",
+    "steps": ["俯臥在長凳上，頭部懸空", "雙手扶著一片槓片置於後腦勺", "慢慢低下頭", "再用力抬起頭部至最高點"],
+    "images": "Lying_Face_Down_Plate_Neck_Resistance"
+  },
+  {
+    "id": "Lying_Face_Up_Plate_Neck_Resistance",
+    "name": "仰臥槓片頸部訓練",
+    "muscleGroup": "Neck",
+    "level": "中階",
+    "equipment": "槓片",
+    "primaryMuscles": ["頸部"],
+    "secondaryMuscles": [],
+    "description": "強化頸部前側（胸鎖乳突肌）。",
+    "steps": ["仰臥在長凳上，頭部懸空", "雙手扶著一片槓片置於額頭", "慢慢將頭向後仰", "收縮頸部將下巴貼向胸口"],
+    "images": "Lying_Face_Up_Plate_Neck_Resistance"
+  },
+  {
+    "id": "Neck-SMR",
+    "name": "頸部筋膜放鬆",
+    "muscleGroup": "Neck",
+    "level": "初階",
+    "equipment": "滾筒/按摩球",
+    "primaryMuscles": ["頸部"],
+    "secondaryMuscles": [],
+    "description": "頸部自我筋膜放鬆。",
+    "steps": ["使用按摩球或花生球靠在牆上", "將球置於頸部肌肉緊繃處（避開脊椎骨）", "輕微轉動頭部或施加壓力進行放鬆"],
+    "images": "Neck-SMR"
+  },
+  {
+    "id": "Seated_Head_Harness_Neck_Resistance",
+    "name": "坐姿頭部負重訓練",
+    "muscleGroup": "Neck",
+    "level": "中階",
+    "equipment": "頭部負重帶",
+    "primaryMuscles": ["頸部"],
+    "secondaryMuscles": [],
+    "description": "使用專業頭部負重帶連接重量進行訓練。",
+    "steps": ["戴上連接重量的負重帶", "坐在長凳上，雙手扶膝，身體微前傾", "利用頸部力量上下移動頭部對抗阻力"],
+    "images": "Seated_Head_Harness_Neck_Resistance"
+  },
+  {
+    "id": "Side_Neck_Stretch",
+    "name": "側向頸部伸展",
+    "muscleGroup": "Neck",
+    "level": "初階",
+    "equipment": "徒手",
+    "primaryMuscles": ["頸部"],
+    "secondaryMuscles": ["斜方肌"],
+    "description": "伸展頸部側邊與上斜方肌。",
+    "steps": ["站姿或坐姿", "右手繞過頭頂摸到左耳", "輕輕將頭拉向右側肩膀", "左肩保持下沉放鬆，換邊進行"],
+    "images": "Side_Neck_Stretch"
+  }
+]

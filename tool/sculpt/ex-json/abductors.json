@@ -1,0 +1,63 @@
+
+[
+  {
+    "id": "IT_Band_and_Glute_Stretch",
+    "name": "髂脛束與臀部伸展",
+    "muscleGroup": "Abductors",
+    "level": "初階",
+    "equipment": "徒手",
+    "primaryMuscles": ["外展肌", "臀部"],
+    "secondaryMuscles": [],
+    "description": "放鬆大腿外側髂脛束與臀部的伸展動作。",
+    "steps": ["仰臥，膝蓋彎曲", "將一腳腳踝放在另一腳膝蓋上", "雙手抱住下方大腿向胸口拉近"],
+    "images": "IT_Band_and_Glute_Stretch"
+  },
+  {
+    "id": "Iliotibial_Tract-SMR",
+    "name": "髂脛束滾筒放鬆",
+    "muscleGroup": "Abductors",
+    "level": "初階",
+    "equipment": "滾筒",
+    "primaryMuscles": ["外展肌", "髂脛束"],
+    "secondaryMuscles": [],
+    "description": "利用滾筒放鬆大腿外側緊繃的筋膜。",
+    "steps": ["側臥，將滾筒置於大腿外側下方", "上方腳踩地支撐，手肘撐地", "在大腿外側來回滾動，避開膝蓋與髖骨"],
+    "images": "Iliotibial_Tract-SMR"
+  },
+  {
+    "id": "Monster_Walk",
+    "name": "怪獸走路",
+    "muscleGroup": "Abductors",
+    "level": "初階",
+    "equipment": "彈力帶",
+    "primaryMuscles": ["外展肌", "臀中肌"],
+    "secondaryMuscles": ["臀大肌"],
+    "description": "利用彈力帶激活臀中肌與外展肌群。",
+    "steps": ["將彈力帶套在腳踝或膝蓋上方", "採半蹲姿勢，雙腳打開寬於肩", "保持彈力帶張力，像怪獸一樣向前或向側邊行走"],
+    "images": "Monster_Walk"
+  },
+  {
+    "id": "Standing_Hip_Circles",
+    "name": "站姿髖畫圓",
+    "muscleGroup": "Abductors",
+    "level": "初階",
+    "equipment": "徒手",
+    "primaryMuscles": ["外展肌", "髖屈肌"],
+    "secondaryMuscles": [],
+    "description": "增加髖關節活動度的動態熱身。",
+    "steps": ["單腳站立（可扶牆）", "抬起另一腳膝蓋", "以髖部為軸心向外畫大圓"],
+    "images": "Standing_Hip_Circles"
+  },
+  {
+    "id": "Thigh_Abductor",
+    "name": "坐姿夾腿機 (外展)",
+    "muscleGroup": "Abductors",
+    "level": "中階",
+    "equipment": "機械",
+    "primaryMuscles": ["外展肌", "臀中肌"],
+    "secondaryMuscles": [],
+    "description": "健身房常見的固定器械，專門針對大腿外側。",
+    "steps": ["坐在機器上，調整擋墊至膝蓋外側", "雙腿用力向外打開", "在頂端停留一秒後緩慢回放"],
+    "images": "Thigh_Abductor"
+  }
+]

@@ -1,0 +1,135 @@
+
+[
+  {
+    "id": "Bench_Press_-_Powerlifting",
+    "name": "健力臥推",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "槓鈴",
+    "primaryMuscles": ["胸大肌", "三頭肌", "全身"],
+    "secondaryMuscles": [],
+    "description": "強調起橋 (Arch) 與腿部驅動的大重量臥推技巧。",
+    "steps": ["起橋縮短行程，肩胛後收下壓", "腳踩實地面", "槓鈴落點較低，全身發力推起"],
+    "images": "Bench_Press_-_Powerlifting"
+  },
+  {
+    "id": "Bench_Press_-_With_Bands",
+    "name": "彈力帶臥推",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "槓鈴/彈力帶",
+    "primaryMuscles": ["胸大肌", "爆發力"],
+    "secondaryMuscles": [],
+    "description": "增加頂端鎖定的阻力，訓練爆發力。",
+    "steps": ["將彈力帶固定在地面或架底，另一端掛在槓鈴上", "進行臥推，感受變動阻力"],
+    "images": "Bench_Press_-_With_Bands"
+  },
+  {
+    "id": "Bench_Press_with_Chains",
+    "name": "鐵鍊臥推",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "槓鈴/鐵鍊",
+    "primaryMuscles": ["胸大肌"],
+    "secondaryMuscles": [],
+    "description": "同 Chain Press，專家級變動阻力訓練。",
+    "steps": ["掛鐵鍊進行臥推"],
+    "images": "Bench_Press_with_Chains"
+  },
+  {
+    "id": "Floor_Press_with_Chains",
+    "name": "鐵鍊地板臥推",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "槓鈴/鐵鍊",
+    "primaryMuscles": ["三頭肌", "胸大肌"],
+    "secondaryMuscles": [],
+    "description": "地板臥推加上鐵鍊。",
+    "steps": ["地板臥推", "加掛鐵鍊"],
+    "images": "Floor_Press_with_Chains"
+  },
+  {
+    "id": "Forward_Drag_with_Press",
+    "name": "前進拖行推舉",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "雪橇/繩索",
+    "primaryMuscles": ["胸大肌", "腿部"],
+    "secondaryMuscles": [],
+    "description": "拉著重物向前走同時做推舉動作。",
+    "steps": ["背對雪橇，雙手持繩索", "向前跨步同時向前推"],
+    "images": "Forward_Drag_with_Press"
+  },
+  {
+    "id": "Incline_Push-Up_Depth_Jump",
+    "name": "上斜爆發伏地挺身 (深跳)",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "板凳",
+    "primaryMuscles": ["爆發力", "胸肌"],
+    "secondaryMuscles": [],
+    "description": "手撐板凳，用力推起使身體騰空後接回。",
+    "steps": ["上斜伏地挺身姿勢", "爆發力推離板凳", "手離開板凳後再接回緩衝"],
+    "images": "Incline_Push-Up_Depth_Jump"
+  },
+  {
+    "id": "Neck_Press",
+    "name": "頸式推舉 (Neck Press)",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "槓鈴",
+    "primaryMuscles": ["上胸"],
+    "secondaryMuscles": [],
+    "description": "落點在頸部的臥推，同斷頭台臥推。",
+    "steps": ["寬握，落點頸部，小心操作"],
+    "images": "Neck_Press"
+  },
+  {
+    "id": "Plyo_Kettlebell_Pushups",
+    "name": "壺鈴爆發伏地挺身",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "壺鈴",
+    "primaryMuscles": ["胸大肌", "爆發力"],
+    "secondaryMuscles": [],
+    "description": "在壺鈴上進行的爆發力伏地挺身。",
+    "steps": ["單手或雙手撐壺鈴", "爆發推起換手或騰空"],
+    "images": "Plyo_Kettlebell_Pushups"
+  },
+  {
+    "id": "Plyo_Push-up",
+    "name": "擊掌伏地挺身",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "徒手",
+    "primaryMuscles": ["胸大肌", "爆發力"],
+    "secondaryMuscles": [],
+    "description": "推起身體騰空擊掌。",
+    "steps": ["下沉身體", "全力推起使上半身騰空", "空中擊掌後落地緩衝"],
+    "images": "Plyo_Push-up"
+  },
+  {
+    "id": "Reverse_Band_Bench_Press",
+    "name": "反向彈力帶臥推",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "槓鈴/彈力帶",
+    "primaryMuscles": ["胸大肌", "三頭肌"],
+    "secondaryMuscles": [],
+    "description": "彈力帶吊掛槓鈴，減輕底部重量。",
+    "steps": ["彈力帶掛在架頂吊住槓鈴", "進行臥推", "底部較輕，頂部恢復原重"],
+    "images": "Reverse_Band_Bench_Press"
+  },
+  {
+    "id": "Single-Arm_Push-Up",
+    "name": "單手伏地挺身",
+    "muscleGroup": "Chest",
+    "level": "高階",
+    "equipment": "徒手",
+    "primaryMuscles": ["胸大肌", "核心"],
+    "secondaryMuscles": ["三頭肌"],
+    "description": "極高難度的自重動作，考驗核心與推力。",
+    "steps": ["雙腳分開寬於肩", "單手撐地置於胸口下方", "另一手背在身後", "下沉推起，保持身體不扭轉"],
+    "images": "Single-Arm_Push-Up"
+  }
+]

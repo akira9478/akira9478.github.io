@@ -1,0 +1,87 @@
+
+[
+  {
+    "id": "Drag_Curl",
+    "name": "拖曳彎舉",
+    "muscleGroup": "Biceps",
+    "level": "中階",
+    "equipment": "槓鈴",
+    "primaryMuscles": ["二頭肌長頭"],
+    "secondaryMuscles": [],
+    "description": "槓鈴貼著身體垂直上拉，手肘向後移動，極度強調長頭。",
+    "steps": ["站姿持槓", "彎舉時將手肘向後拉", "槓鈴貼著腹部胸部上移", "不需舉至最高點"],
+    "images": "Drag_Curl"
+  },
+  {
+    "id": "High_Cable_Curls",
+    "name": "高位繩索彎舉 (雙臂)",
+    "muscleGroup": "Biceps",
+    "level": "中階",
+    "equipment": "繩索",
+    "primaryMuscles": ["二頭肌"],
+    "secondaryMuscles": [],
+    "description": "模仿健美展示動作的彎舉，感受度極佳。",
+    "steps": ["站在兩邊高滑輪中間", "雙手各握把手，手臂水平展開", "將手把拉向頭部", "擠壓二頭肌"],
+    "images": "High_Cable_Curls"
+  },
+  {
+    "id": "Overhead_Cable_Curl",
+    "name": "過頭繩索彎舉",
+    "muscleGroup": "Biceps",
+    "level": "中階",
+    "equipment": "繩索",
+    "primaryMuscles": ["二頭肌"],
+    "secondaryMuscles": [],
+    "description": "同 High Cable Curls。",
+    "steps": ["站在龍門架中間，拉動兩側高滑輪"],
+    "images": "Overhead_Cable_Curl"
+  },
+  {
+    "id": "Reverse_Barbell_Curl",
+    "name": "反手槓鈴彎舉",
+    "muscleGroup": "Biceps",
+    "level": "中階",
+    "equipment": "槓鈴",
+    "primaryMuscles": ["前臂伸肌", "肱肌"],
+    "secondaryMuscles": ["二頭肌"],
+    "description": "掌心朝下的槓鈴彎舉，強化前臂與握力。",
+    "steps": ["站姿，正手握槓（掌心朝下）", "夾緊手肘", "將槓鈴彎舉至胸前"],
+    "images": "Reverse_Barbell_Curl"
+  },
+  {
+    "id": "Reverse_Barbell_Preacher_Curls",
+    "name": "反手牧師椅彎舉",
+    "muscleGroup": "Biceps",
+    "level": "中階",
+    "equipment": "槓鈴/牧師椅",
+    "primaryMuscles": ["前臂", "肱肌"],
+    "secondaryMuscles": [],
+    "description": "固定手臂的反手彎舉。",
+    "steps": ["在牧師椅上採正手握法", "進行彎舉"],
+    "images": "Reverse_Barbell_Preacher_Curls"
+  },
+  {
+    "id": "Zottman_Curl",
+    "name": "佐特曼彎舉",
+    "muscleGroup": "Biceps",
+    "level": "中階",
+    "equipment": "啞鈴",
+    "primaryMuscles": ["二頭肌", "前臂"],
+    "secondaryMuscles": [],
+    "description": "結合正手與反手彎舉的複合動作。",
+    "steps": ["掌心朝上彎舉啞鈴至頂端", "在頂端翻轉手腕使掌心朝下", "慢速反手下放", "底部翻轉回掌心朝上"],
+    "images": "Zottman_Curl"
+  },
+  {
+    "id": "Zottman_Preacher_Curl",
+    "name": "佐特曼牧師椅彎舉",
+    "muscleGroup": "Biceps",
+    "level": "中階",
+    "equipment": "啞鈴/牧師椅",
+    "primaryMuscles": ["二頭肌", "前臂"],
+    "secondaryMuscles": [],
+    "description": "在牧師椅上進行佐特曼彎舉。",
+    "steps": ["在牧師椅上進行：正手上，翻腕，反手下"],
+    "images": "Zottman_Preacher_Curl"
+  }
+]
