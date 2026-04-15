@@ -126,7 +126,7 @@
                 <v-col cols="4" v-for="r in resultLinks" class="d-flex justify-center flex-wrap">
                   <v-btn @click="openLink(r.link)">{{ r.name }}</v-btn>
                   <div v-show="linkVisible">
-                    <a :href="r.link" target="_blank" class="text-break">{{ r.link }}</a>
+                    <a :href="r.link" target="_blank" rel="noreferrer" class="text-break">{{ r.link }}</a>
                   </div>
                 </v-col>
               </v-row>
